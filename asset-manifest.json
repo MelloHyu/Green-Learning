@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Green-Learning/static/css/main.d6a10b30.css",
-    "main.js": "/Green-Learning/static/js/main.11423d72.js",
+    "main.js": "/Green-Learning/static/js/main.014d82c9.js",
     "index.html": "/Green-Learning/index.html",
     "main.d6a10b30.css.map": "/Green-Learning/static/css/main.d6a10b30.css.map",
-    "main.11423d72.js.map": "/Green-Learning/static/js/main.11423d72.js.map"
+    "main.014d82c9.js.map": "/Green-Learning/static/js/main.014d82c9.js.map"
   },
   "entrypoints": [
     "static/css/main.d6a10b30.css",
-    "static/js/main.11423d72.js"
+    "static/js/main.014d82c9.js"
   ]
 }
