@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -16,8 +16,8 @@ export default function App() {
   return (
     // AuthProvider wraps entire app so any component can access auth state
     <AuthProvider>
-      {/* BrowserRouter enables client-side routing */}
-      <BrowserRouter>
+      {/* HashRouter enables client-side routing */}
+      <HashRouter>
         {/* Navbar is always visible */}
         <Navbar />
 
@@ -29,7 +29,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          {/* Protected routes — redirect to /login if not authenticated */}
+          {/* Protected routes - redirect to /login if not authenticated */}
           <Route
             path="/course"
             element={
@@ -47,7 +47,7 @@ export default function App() {
             }
           />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </AuthProvider>
   );
 }
