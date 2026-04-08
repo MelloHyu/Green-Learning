@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Footer from "../components/Footer";
 
-// Quiz data
 const quizData = [
   { question: "Which of these is a creeper?", options: ["Pumpkin", "Rose", "Mango", "Money Plant"], answer: "Pumpkin" },
   { question: "Which plant is a herb?", options: ["Mint", "Mango", "Banyan", "Rose"], answer: "Mint" },
@@ -15,13 +14,20 @@ const quizData = [
   { question: "Which plant category grows with support?", options: ["Climbers", "Trees", "Herbs", "Shrubs"], answer: "Climbers" },
 ];
 
+function getResultMeta(score, total) {
+  if (score === total) return { emoji: "🎉", msg: "Perfect score! You're a plant expert!" };
+  if (score >= 8)       return { emoji: "✅", msg: "Great job! Almost perfect." };
+  if (score >= 6)       return { emoji: "👍", msg: "Good effort! Review a few topics." };
+  return                       { emoji: "📚", msg: "Keep studying - you'll get there!" };
+}
+
 export default function Assessment() {
-  // useState to track selected answers: { q0: "Pumpkin", q2: "Mint", ... }
   const [answers, setAnswers] = useState({});
-  // useState to hold result after submission
   const [result, setResult] = useState(null);
-  // useState to track if quiz was submitted
   const [submitted, setSubmitted] = useState(false);
+
+  const answeredCount = Object.keys(answers).length;
+  const progressPct = (answeredCount / quizData.length) * 100;
 
   function handleOptionChange(questionIndex, value) {
     setAnswers((prev) => ({ ...prev, [`q${questionIndex}`]: value }));
@@ -29,12 +35,10 @@ export default function Assessment() {
 
   function handleSubmit(e) {
     e.preventDefault();
-
     let score = 0;
     quizData.forEach((q, i) => {
       if (answers[`q${i}`] === q.answer) score++;
     });
-
     setResult(score);
     setSubmitted(true);
   }
@@ -46,24 +50,35 @@ export default function Assessment() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  const meta = result !== null ? getResultMeta(result, quizData.length) : null;
+
   return (
     <>
       <section className="section">
-        <h2>Plant Identification Quiz</h2>
+        <div className="quiz-header">
+          <h2>Plant Identification Quiz</h2>
+          <p>Answer all 10 questions to test your plant knowledge.</p>
+        </div>
+
+        {!submitted && (
+          <div className="quiz-progress-bar">
+            <div className="quiz-progress-fill" style={{ width: `${progressPct}%` }} />
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div id="quizContainer">
             {quizData.map((q, index) => (
               <div className="quiz-card" key={index}>
                 <p className="quiz-question">
-                  {index + 1}. {q.question}
+                  <span className="quiz-q-num">Q{index + 1}</span>
+                  {q.question}
                 </p>
                 <div className="quiz-options-group">
                   {q.options.map((option) => {
                     const isSelected = answers[`q${index}`] === option;
                     const isCorrect = submitted && option === q.answer;
-                    const isWrong =
-                      submitted && isSelected && option !== q.answer;
+                    const isWrong = submitted && isSelected && option !== q.answer;
 
                     return (
                       <label
@@ -88,29 +103,21 @@ export default function Assessment() {
           </div>
 
           {!submitted && (
-            <button type="submit" className="submit-btn">
-              Submit Quiz
+            <button type="submit" className="submit-btn" disabled={answeredCount < quizData.length}>
+              {answeredCount < quizData.length
+                ? `Answer all questions (${answeredCount}/${quizData.length})`
+                : "Submit Quiz"}
             </button>
           )}
         </form>
 
-        {/* Result section — shown after submission */}
-        {submitted && result !== null && (
+        {submitted && meta && (
           <div className="result-box">
-            <h2>
-              Your Score: {result}/{quizData.length}
-            </h2>
-            <p>
-              {result === quizData.length
-                ? "🎉 Perfect score!"
-                : result >= 7
-                ? "✅ Great job!"
-                : result >= 5
-                ? "👍 Good effort!"
-                : "📚 Keep studying!"}
-            </p>
+            <div className="result-emoji">{meta.emoji}</div>
+            <h2>Score: {result} / {quizData.length}</h2>
+            <p>{meta.msg}</p>
             <button onClick={handleRetry} className="retry-btn">
-              Retry Quiz
+              Try Again
             </button>
           </div>
         )}

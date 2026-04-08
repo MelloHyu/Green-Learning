@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useForm } from "../hooks/useForm";
 
-// Validation for login fields
 function validate(values) {
   const errors = {};
   if (!values.email) errors.email = "Email is required.";
@@ -17,7 +16,6 @@ export default function Login() {
   const { values, errors, message, handleChange, handleSubmit, setMessage } =
     useForm({ email: "", password: "" }, validate);
 
-  // Called on successful validation
   function onSubmit(values, setMessage) {
     try {
       login({ email: values.email, password: values.password });

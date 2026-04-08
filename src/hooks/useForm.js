@@ -1,15 +1,13 @@
 import { useState } from "react";
 
-// Custom hook for form state + validation
 export function useForm(initialValues, validate) {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
-  const [message, setMessage] = useState({ text: "", type: "" }); // type: "success" | "error"
+  const [message, setMessage] = useState({ text: "", type: "" });
 
   function handleChange(e) {
     const { name, value } = e.target;
     setValues((prev) => ({ ...prev, [name]: value }));
-    // Clear field error on change
     setErrors((prev) => ({ ...prev, [name]: "" }));
   }
 

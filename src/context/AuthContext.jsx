@@ -1,14 +1,11 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
-// Create the context
+
 const AuthContext = createContext(null);
 
-// Custom hook to consume context
 export function useAuth() {
   return useContext(AuthContext);
 }
-
-// Helper: get cookie by name
 function getCookie(name) {
   const cookies = document.cookie.split(";");
   for (let cookie of cookies) {
@@ -20,17 +17,15 @@ function getCookie(name) {
   return null;
 }
 
-// Provider component
+
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
 
-  // On mount, check if user cookie exists
   useEffect(() => {
     const name = getCookie("loggedUser");
     if (name) setCurrentUser(name);
   }, []);
 
-  // Register: save to localStorage
   function register({ name, email, password }) {
     let users = JSON.parse(localStorage.getItem("users")) || [];
     if (users.find((u) => u.email === email)) {
@@ -40,7 +35,6 @@ export function AuthProvider({ children }) {
     localStorage.setItem("users", JSON.stringify(users));
   }
 
-  // Login: verify and set cookie + state
   function login({ email, password }) {
     const users = JSON.parse(localStorage.getItem("users")) || [];
     const user = users.find(
@@ -52,7 +46,6 @@ export function AuthProvider({ children }) {
     return user.name;
   }
 
-  // Logout: clear cookie + state
   function logout() {
     document.cookie =
       "loggedUser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";

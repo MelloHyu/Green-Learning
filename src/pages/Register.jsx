@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useForm } from "../hooks/useForm";
 
-// Validation rules matching original auth.js
 function validate(values) {
   const errors = {};
   if (!values.name || values.name.trim().length < 3) {
@@ -24,7 +23,6 @@ export default function Register() {
   const { values, errors, message, handleChange, handleSubmit, reset } =
     useForm({ name: "", email: "", password: "" }, validate);
 
-  // Called after validation passes
   function onSubmit(values, setMessage) {
     try {
       register({
@@ -48,7 +46,6 @@ export default function Register() {
 
       <div className="form-box">
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          {/* Name */}
           <div className="field-group">
             <input
               type="text"
@@ -60,7 +57,6 @@ export default function Register() {
             {errors.name && <p className="field-error">{errors.name}</p>}
           </div>
 
-          {/* Email */}
           <div className="field-group">
             <input
               type="email"
@@ -72,7 +68,6 @@ export default function Register() {
             {errors.email && <p className="field-error">{errors.email}</p>}
           </div>
 
-          {/* Password */}
           <div className="field-group">
             <input
               type="password"

@@ -1,7 +1,6 @@
 import { useForm } from "../hooks/useForm";
 import Footer from "../components/Footer";
 
-// Validation function used by useForm hook
 function validate(values) {
   const errors = {};
   if (!values.name || values.name.trim().length < 2) {
@@ -18,11 +17,9 @@ function validate(values) {
 }
 
 export default function Feedback() {
-  // useForm custom hook handles state, errors, and submit
   const { values, errors, message, handleChange, handleSubmit, reset } =
     useForm({ name: "", email: "", feedback: "" }, validate);
 
-  // Called by useForm's handleSubmit after validation passes
   function onSubmit(values, setMessage) {
     console.log("Feedback submitted:", values);
     setMessage({ text: "Thank you for your feedback!", type: "success" });
@@ -36,7 +33,6 @@ export default function Feedback() {
 
         <div className="form-box">
           <form onSubmit={handleSubmit(onSubmit)} noValidate>
-            {/* Name field */}
             <div className="field-group">
               <input
                 type="text"
@@ -48,7 +44,6 @@ export default function Feedback() {
               {errors.name && <p className="field-error">{errors.name}</p>}
             </div>
 
-            {/* Email field */}
             <div className="field-group">
               <input
                 type="email"
@@ -60,7 +55,6 @@ export default function Feedback() {
               {errors.email && <p className="field-error">{errors.email}</p>}
             </div>
 
-            {/* Feedback textarea */}
             <div className="field-group">
               <textarea
                 name="feedback"
@@ -76,7 +70,6 @@ export default function Feedback() {
 
             <button type="submit">Submit Feedback</button>
 
-            {/* Submission message */}
             {message.text && (
               <p
                 className={

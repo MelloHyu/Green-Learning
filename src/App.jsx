@@ -14,22 +14,15 @@ import Register from "./pages/Register";
 
 export default function App() {
   return (
-    // AuthProvider wraps entire app so any component can access auth state
     <AuthProvider>
-      {/* HashRouter enables client-side routing */}
       <HashRouter>
-        {/* Navbar is always visible */}
         <Navbar />
-
-        {/* Routes defines all page routes */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/company" element={<Company />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
-          {/* Protected routes - redirect to /login if not authenticated */}
           <Route
             path="/course"
             element={
